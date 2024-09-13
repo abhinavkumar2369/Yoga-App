@@ -81,15 +81,15 @@ export default function Home() {
             <View style={styles.appHeadingContainer}>
                 <Image source={logo} style={styles.logo} />
                 <Text style={styles.appHeading}>Yoga App</Text>
-                <Text style={styles.appHeadingIntro}>Please fill out the form to get personalized effect.</Text>
+                <Text style={styles.appHeadingIntro}>Please fill out the form to get personalized help</Text>
             </View>
 
             <ScrollView style={styles.formBox}>
                 <View style={styles.formOne}>
                     <TextInput style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
-                    <TextInput style={styles.input} placeholder="Age" value={age} onChangeText={setAge} keyboardType="numeric" />
-                    <TextInput style={styles.input} placeholder="Weight" value={weight} onChangeText={setWeight} keyboardType="numeric" />
-                    <TextInput style={styles.input} placeholder="Height" value={height} onChangeText={setHeight} keyboardType="numeric" />
+                    <TextInput style={styles.input} placeholder="Age (in Years)" value={age} onChangeText={setAge} keyboardType="numeric" />
+                    <TextInput style={styles.input} placeholder="Weight (in Kg)" value={weight} onChangeText={setWeight} keyboardType="numeric" />
+                    <TextInput style={styles.input} placeholder="Height (in cm)" value={height} onChangeText={setHeight} keyboardType="numeric" />
                 </View>
                 <View style={styles.formTwo}>
                     <View style={styles.diseaseBox}>
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     logo: {
-        height: 60,
-        width: 60,
+        height: 150,
+        width: 150,
         marginTop: 10,
         marginBottom: 10,
     },
@@ -238,6 +238,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         marginTop: 10,
+        marginBottom: 5,
     },
     submitButton: {
         width: '90%',
