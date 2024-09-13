@@ -1,67 +1,165 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Modal, ScrollView , Linking} from 'react-native';
+import { CheckBox } from 'react-native-elements';
+// import { Video } from 'expo-av';
+import * as Speech from 'expo-speech';
+import Markdown from 'react-native-markdown-display';
 
 import logo from './logo.png';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity , Image } from 'react-native';
-import { CheckBox } from 'react-native-elements'
+import yoga from './yoga.png';
 
 export default function Home() {
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+    const [weight, setWeight] = useState('');
+    const [height, setHeight] = useState('');
+    const [bloodPressure, setBloodPressure] = useState(false);
+    const [diabetes, setDiabetes] = useState(false);
+    const [heartPatient, setHeartPatient] = useState(false);
+    const [arthritis, setArthritis] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [aiResponse, setAiResponse] = useState('');
+    const [videoUrl, setVideoUrl] = useState('');
+
+    const handleSubmit = async () => {
+
+        const api_key = "";
+        const userInput = `Name: ${name}, Age: ${age}, Weight: ${weight}, Height: ${height}, 
+            Conditions: ${bloodPressure ? 'Blood Pressure, ' : ''}${diabetes ? 'Diabetes, ' : ''}
+            ${heartPatient ? 'Heart Patient, ' : ''}${arthritis ? 'Arthritis' : ''}`;
+
+        const prompt = `Based on this user input: ${userInput}, suggest a yoga routine and provide a link to a relevant YouTube yoga video. Format your response in good rich markdown. and check whether the youtube link is working or not. `;
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${api_key}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const aiMessage = data.candidates[0].content.parts[0].text;
+            setAiResponse(aiMessage);
+
+            const youtubeUrlMatch = aiMessage.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?([^\s&]+)/);
+            if (youtubeUrlMatch) {
+                setVideoUrl(youtubeUrlMatch[0]);
+                console.log('YouTube URL:', youtubeUrlMatch[0]);
+            }
+
+            setModalVisible(true);
+        } catch (error) {
+            console.error('Error calling Gemini API:', error);
+            setAiResponse('Sorry, there was an error processing your request.');
+            setModalVisible(true);
+        }
+    };
+
+    const speakMessage = () => {
+        Speech.speak(aiResponse);
+    };
+
+    const openYoutubeVideo = () => {
+        if (videoUrl) {
+            Linking.openURL(videoUrl);
+        }
+    };
+
     return (
         <View style={styles.container}>
-
-            {/* App Heading */}
             <View style={styles.appHeadingContainer}>
                 <Image source={logo} style={styles.logo} />
                 <Text style={styles.appHeading}>Yoga App</Text>
                 <Text style={styles.appHeadingIntro}>Please fill out the form to get personalized effect.</Text>
             </View>
 
-            {/* Form */}
-            <View style={styles.formBox}>
+            <ScrollView style={styles.formBox}>
                 <View style={styles.formOne}>
-                    <TextInput style={styles.input} placeholder="Name" />
-                    <TextInput style={styles.input} placeholder="Age" />
-                    <TextInput style={styles.input} placeholder="Weight" />
-                    <TextInput style={styles.input} placeholder="Height" />
+                    <TextInput style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
+                    <TextInput style={styles.input} placeholder="Age" value={age} onChangeText={setAge} keyboardType="numeric" />
+                    <TextInput style={styles.input} placeholder="Weight" value={weight} onChangeText={setWeight} keyboardType="numeric" />
+                    <TextInput style={styles.input} placeholder="Height" value={height} onChangeText={setHeight} keyboardType="numeric" />
                 </View>
                 <View style={styles.formTwo}>
                     <View style={styles.diseaseBox}>
-                    <CheckBox
-                        title="Blood Pressure"
-                        checked={true}
-                        containerStyle={styles.CheckBox}
-                        textStyle={{color: '#3d43f5'}}
-                    />
-                    <CheckBox
-                        title="Diabeties"
-                        checked={true}
-                        containerStyle={styles.CheckBox}
-                        textStyle={{color: '#3d43f5'}}
-                    />
-                    <CheckBox
-                        title="Heart Patient"
-                        checked={true}
-                        containerStyle={styles.CheckBox}
-                        textStyle={{color: '#3d43f5'}}
-                    />
-                    <CheckBox
-                        title="Arthritis"
-                        checked={true}
-                        containerStyle={styles.CheckBox}
-                        textStyle={{color: '#3d43f5'}}
-                    />
+                        <CheckBox
+                            title="Blood Pressure"
+                            checked={bloodPressure}
+                            onPress={() => setBloodPressure(!bloodPressure)}
+                            containerStyle={styles.CheckBox}
+                            textStyle={{color: '#3d43f5'}}
+                        />
+                        <CheckBox
+                            title="Diabetes"
+                            checked={diabetes}
+                            onPress={() => setDiabetes(!diabetes)}
+                            containerStyle={styles.CheckBox}
+                            textStyle={{color: '#3d43f5'}}
+                        />
+                        <CheckBox
+                            title="Heart Patient"
+                            checked={heartPatient}
+                            onPress={() => setHeartPatient(!heartPatient)}
+                            containerStyle={styles.CheckBox}
+                            textStyle={{color: '#3d43f5'}}
+                        />
+                        <CheckBox
+                            title="Arthritis"
+                            checked={arthritis}
+                            onPress={() => setArthritis(!arthritis)}
+                            containerStyle={styles.CheckBox}
+                            textStyle={{color: '#3d43f5'}}
+                        />
                     </View>
                 </View>
-            </View>
+            </ScrollView>
 
-            {/* Submit Button */}
-            <TouchableOpacity style={styles.buttonContainer}>
-                    <Text style={styles.submitButton}>Submit</Text>
-                </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+                <Text style={styles.submitButton}>Submit</Text>
+            </TouchableOpacity>
+
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <ScrollView style={styles.modalContainer}>
+                    <Image source={yoga} style={styles.yogaImage} />
+                    <Markdown>{aiResponse}</Markdown>
+                    
+                    <TouchableOpacity style={styles.speakButton} onPress={speakMessage}>
+                        <Text style={styles.speakButtonText}>Speak Message</Text>
+                    </TouchableOpacity>
+
+                    {videoUrl && (
+                        <TouchableOpacity style={styles.videoButton} onPress={openYoutubeVideo}>
+                            <Text style={styles.videoButtonText}>Watch Yoga Video on YouTube</Text>
+                        </TouchableOpacity>
+                    )}
+
+                    <TouchableOpacity
+                        style={styles.closeButton}
+                        onPress={() => setModalVisible(false)}
+                    >
+                        <Text style={styles.closeButtonText}>Close</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+            </Modal>
         </View>
     );
 }
-
-
 
 const styles = StyleSheet.create({
     container: {
@@ -72,18 +170,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-
-
     appHeadingContainer: {
         width: '100%',
         paddingVertical: 10,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        // backgroundColor: '#33007d',
-        // borderRadius: 10,
     },
-    logo:{
+    logo: {
         height: 60,
         width: 60,
         marginTop: 10,
@@ -98,19 +192,12 @@ const styles = StyleSheet.create({
     appHeadingIntro: {
         marginTop: 6,
         fontWeight: '500',
-        // color: '#3d43f5',
         fontSize: 14,
         textAlign: 'center',
     },
-
-
     formBox: {
         width: '100%',
         marginVertical: 20,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // gap: 20,
     },
     formOne: {
         width: '100%',
@@ -119,7 +206,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10,
     },
-    input:{
+    input: {
         width: '90%',
         borderColor: '#3d43f5',
         paddingVertical: 10,
@@ -127,7 +214,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
     },
-    formTwo:{
+    formTwo: {
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -144,18 +231,15 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         marginTop: 20,
     },
-
     CheckBox: {
         borderColor: '#3d43f5',
     },
-
-
     buttonContainer: {
         width: '100%',
         alignItems: 'center',
         marginTop: 10,
     },
-    submitButton :{
+    submitButton: {
         width: '90%',
         borderRadius: 16,
         textAlign: 'center',
@@ -166,5 +250,70 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         fontSize: 18,
         letterSpacing: 1,
-    }
+    },
+    modalContainer: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#fff',
+        // backgroundColor: "lightblue"
+    },
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: '#3d43f5',
+    },
+    modalText: {
+        fontSize: 16,
+        marginBottom: 20,
+    },
+    speakButton: {
+        backgroundColor: '#3d43f5',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 20,
+    },
+    speakButtonText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 16,
+    },
+    videoContainer: {
+        width: '100%',
+        aspectRatio: 16 / 9,
+        marginBottom: 20,
+    },
+    video: {
+        width: '100%',
+        height: '100%',
+    },
+    closeButton: {
+        backgroundColor: '#3d43f5',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 50,
+    },
+    closeButtonText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 16,
+    },
+    videoButton: {
+        backgroundColor: '#FF0000',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 20,
+    },
+    videoButtonText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 16,
+    },
+    yogaImage: {
+        display: 'flex',
+        alignSelf: 'center',
+        width: 200,
+        height: 200,
+        marginBottom: 20,
+    },
 });
