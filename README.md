@@ -41,11 +41,122 @@
 </div>
 
 
+<!------------------------------------------------->
+
+
+## Overview 🌟
+
+Welcome to the Yoga App! This React Native application provides a comprehensive platform for yoga enthusiasts to explore and practice various yoga routines, track their progress, and stay motivated on their wellness journey.
+
+
+<!------------------------------------------------->
+
+
+## Features 🔥
+
+- Get Personlized Yoga Exercise recommendation from Gemini, based on the Information given.
+- Text to Speech
+- Youtube Video Recommendation
+
+
+<!------------------------------------------------->
+
 
 ## ScreenShots 🖼️
+
 ![Welcome Screen](https://github.com/user-attachments/assets/e6f096f5-ec38-4235-b844-92e09c0b27f3)
 
 <br/>
 
 ![HomeScreen](https://github.com/user-attachments/assets/86141797-e770-4f3a-90af-73d5b14f48ea)
 ![Description](https://github.com/user-attachments/assets/9af0a9f0-9457-40c4-9846-390ac04da90a)
+
+
+<!------------------------------------------------->
+
+
+## Prerequisites 📦
+
+- Node.js (>= 14.x)
+- npm or yarn
+- React Native CLI
+- Android Studio or Xcode (for mobile development)
+
+
+<!------------------------------------------------->
+
+
+## Installation ⚒️
+
+1. ➡️ **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/abhinavkumar2369/yoga-app.git
+    cd yoga-app
+    ```
+
+2. ➡️ **Install dependencies:**
+
+    Using npm:
+    ```bash
+    npm install
+    ```
+
+    Or using yarn:
+    ```bash
+    yarn install
+    ```
+
+3. ➡️ **Run the application:**
+
+    For iOS (requires macOS):
+    ```bash
+    npx react-native run-ios
+    ```
+
+    For Android:
+    ```bash
+    npx react-native run-android
+    ```
+
+4. ➡️ **Start the development server:**
+
+    ```bash
+    npm start
+    ```
+
+<!------------------------------------------------->
+
+
+## Configuration
+
+- Add the Gemini API key in `Home.jsx` file in Components Directory.
+  
+  ```javascript
+  
+        const api_key = "<------- ADD YOUR API KEY HERE ------->";
+        
+  ```
+
+
+<!------------------------------------------------->
+
+
+## Contributions 🧑‍💻
+Contributions are welcome! Please feel free to submit issues and pull requests.
+
+
+<!------------------------------------------------->
+
+
+## Credit 👍 
+Images used in project belong to the Websites --->
+- SVG Repo <a href="https://www.svgrepo.com/"> Website </a>
+
+
+<!------------------------------------------------->
+
+
+## License 🪪
+This project is licensed under the [MIT License](LICENSE).
+
