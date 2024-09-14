@@ -23,14 +23,15 @@ export default function Home() {
 
     const handleSubmit = async () => {
 
-        const api_key = "";
+        const api_key = " <-------- ADD YOUR API KEY (Here) ----------->";
+        
         const userInput = `Name: ${name}, Age: ${age}, Weight: ${weight}, Height: ${height}, 
             Conditions: ${bloodPressure ? 'Blood Pressure, ' : ''}${diabetes ? 'Diabetes, ' : ''}
             ${heartPatient ? 'Heart Patient, ' : ''}${arthritis ? 'Arthritis' : ''}`;
 
         const prompt = `Based on this user input: ${userInput}, suggest a yoga routine and provide a link to a relevant YouTube yoga video. Format your response in good rich markdown. and check whether the youtube link is working or not. `;
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${api_key}`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${api_key}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
