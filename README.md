@@ -4,7 +4,8 @@
      <br/>
      <br/>
      <img alt="Static Badge" src="https://img.shields.io/badge/JavaScript-%23F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-     <img alt="React Native Badge" src="https://img.shields.io/badge/React%20Native-fc2803?style=for-the-badge&logo=react&logoColor=white">
+     <img alt="React Native Badge" src="https://img.shields.io/badge/React%20Native-ff1808?style=for-the-badge&logo=react&logoColor=white">
+     <img alt="Gemini Badge" src="https://img.shields.io/badge/Gemini-Pro-darkblue?style=for-the-badge&logo=gemini&logoColor=white">
      <br/>
      <br/>
      <!-- Open Source -->
