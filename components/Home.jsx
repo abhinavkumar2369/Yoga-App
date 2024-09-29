@@ -13,6 +13,8 @@ export default function Home() {
     const [age, setAge] = useState('');
     const [weight, setWeight] = useState('');
     const [height, setHeight] = useState('');
+    const [heartRate, setHeartRate] = useState('');
+    const [others, setOthers] = useState('');
     const [bloodPressure, setBloodPressure] = useState(false);
     const [diabetes, setDiabetes] = useState(false);
     const [heartPatient, setHeartPatient] = useState(false);
@@ -25,9 +27,9 @@ export default function Home() {
 
         const api_key = " <-------- ADD YOUR API KEY (Here) ----------->";
         
-        const userInput = `Name: ${name}, Age: ${age}, Weight: ${weight}, Height: ${height}, 
+        const userInput = `Name: ${name}, Age: ${age}, Weight: ${weight}, Height: ${height}, HeartRate ${heartRate},
             Conditions: ${bloodPressure ? 'Blood Pressure, ' : ''}${diabetes ? 'Diabetes, ' : ''}
-            ${heartPatient ? 'Heart Patient, ' : ''}${arthritis ? 'Arthritis' : ''}`;
+            ${heartPatient ? 'Heart Patient, ' : ''}${arthritis ? 'Arthritis' : ''} ${others ? others : ''}`;
 
         const prompt = `Based on this user input: ${userInput}, suggest a yoga routine and provide a link to a relevant YouTube yoga video. Format your response in good rich markdown. and check whether the youtube link is working or not. `;
         try {
@@ -88,11 +90,19 @@ export default function Home() {
             <ScrollView style={styles.formBox}>
                 <View style={styles.formOne}>
                     <TextInput style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
-                    <TextInput style={styles.input} placeholder="Age (in Years)" value={age} onChangeText={setAge} keyboardType="numeric" />
-                    <TextInput style={styles.input} placeholder="Weight (in Kg)" value={weight} onChangeText={setWeight} keyboardType="numeric" />
-                    <TextInput style={styles.input} placeholder="Height (in cm)" value={height} onChangeText={setHeight} keyboardType="numeric" />
+                    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '90%'}}>
+                        <TextInput style={styles.inputHalf} placeholder="Age (in Years)" value={age} onChangeText={setAge} keyboardType="numeric" />
+                        <TextInput style={styles.inputHalf} placeholder="Heart Rate" value={heartRate} onChangeText={setHeartRate} keyboardType="numeric" />
+                    </View>
+                    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '90%'}}>
+                        <TextInput style={styles.inputHalf} placeholder="Weight (in Kg)" value={weight} onChangeText={setWeight} keyboardType="numeric" />
+                        <TextInput style={styles.inputHalf} placeholder="Height (in cm)" value={height} onChangeText={setHeight} keyboardType="numeric" />
+                    </View>
                 </View>
                 <View style={styles.formTwo}>
+                    <View style={styles.diseaseHeading}>
+                        <Text style={styles.diseaseHeadingText}>Diseases</Text>
+                    </View>
                     <View style={styles.diseaseBox}>
                         <CheckBox
                             title="Blood Pressure"
@@ -123,6 +133,9 @@ export default function Home() {
                             textStyle={{color: '#3d43f5'}}
                         />
                     </View>
+                </View>
+                <View style={styles.others}>
+                    <TextInput style={styles.input} placeholder="Other Diseases" value={others} onChangeText={setOthers} />
                 </View>
             </ScrollView>
 
@@ -205,10 +218,18 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 10,
+        gap: 12,
     },
     input: {
         width: '90%',
+        borderColor: '#3d43f5',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    inputHalf: {
+        width: '45%',
         borderColor: '#3d43f5',
         paddingVertical: 10,
         paddingHorizontal: 15,
@@ -222,18 +243,40 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10,
     },
+    diseaseHeading:{
+        width: '90%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: 5,
+        flexWrap: 'wrap',
+        marginTop: 12,
+        marginLeft: 10,
+    },
+    diseaseHeadingText:{
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
     diseaseBox: {
         width: '90%',
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         gap: 5,
         flexWrap: 'wrap',
-        marginTop: 20,
     },
     CheckBox: {
         borderColor: '#3d43f5',
+    },
+    others: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
+        marginTop: 12,
     },
     buttonContainer: {
         width: '100%',
