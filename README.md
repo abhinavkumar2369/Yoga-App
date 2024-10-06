@@ -65,13 +65,12 @@ Welcome to the Yoga App! This React Native application provides a comprehensive 
 
 ## ScreenShots 🖼️
 
-![Welcome Screen](https://github.com/user-attachments/assets/e6f096f5-ec38-4235-b844-92e09c0b27f3)
+![Welcome Screen](https://github.com/user-attachments/assets/01fec3fa-86de-452b-83e6-630ac2a894c8)
 
 <br/>
 
-![HomeScreen](https://github.com/user-attachments/assets/86141797-e770-4f3a-90af-73d5b14f48ea)
-![Description](https://github.com/user-attachments/assets/9af0a9f0-9457-40c4-9846-390ac04da90a)
-
+![HomeScreen](https://github.com/user-attachments/assets/c2e4dc95-8967-4ee5-b07a-5aefd29450a1)
+![Description](https://github.com/user-attachments/assets/0e692f5e-c0b8-458c-adeb-e16c2d92817d)
 
 <!------------------------------------------------->
 
